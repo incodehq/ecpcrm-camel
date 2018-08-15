@@ -183,6 +183,10 @@
                         </mixin>
                         <mixin>
                             <groupId>com.danhaywood.mavenmixin</groupId>
+                            <artifactId>enforcerrelaxed</artifactId>
+                        </mixin>
+                        <mixin>
+                            <groupId>com.danhaywood.mavenmixin</groupId>
                             <artifactId>surefire</artifactId>
                         </mixin>
                         <mixin>
@@ -301,7 +305,6 @@
             <groupId>org.isisaddons.module.publishmq</groupId>
             <artifactId>isis-module-publishmq-dom-servicespi</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>org.incode.eurocommercial</groupId>

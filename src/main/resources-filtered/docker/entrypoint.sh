@@ -13,15 +13,6 @@ if [ -s /run/secrets/*.context.xml ];
     echo "context.xml NOT FOUND, proceeding with default config"
 fi
 
-if [ -s /run/secrets/*.shiro.ini ];
-  then
-    # Symlink shiro.ini.
-    ln -sf /run/secrets/*.shiro.ini /run/conf/shiro.ini
-    echo "FOUND shiro.ini."
-  else
-    echo "shiro.ini NOT FOUND, proceeding with default config"
-fi
-
 if [ -s /run/secrets/*.spring.properties ];
   then
     # Symlink spring.properties.
@@ -40,15 +31,12 @@ if [ -s /run/secrets/*.setenv.sh ];
     echo "setenv.sh NOT FOUND, proceeding with default config"
 fi
 
-if [ -s /run/secrets/*.isis.properties ] && [ -s /run/secrets/*.viewer_wicket.properties ] && [ -s /run/secrets/*.logging.properties ];
+if [ -s /run/secrets/*.logging.properties ];
   then
-    # Symlink isis.properties.
-    ln -sf /run/secrets/*.isis.properties /run/conf/isis.properties
-    ln -sf /run/secrets/*.viewer_wicket.properties /run/conf/viewer_wicket.properties
     ln -sf /run/secrets/*.logging.properties /run/conf/logging.properties
-    echo "FOUND isis.properties and viewer_wicket.properties and logging.properties."
+    echo "FOUND logging.properties."
   else
-    echo "isis.properties and/or viewer_wicket.properties and/or logging.properties NOT FOUND, proceeding with default config"
+    echo "logging.properties NOT FOUND, proceeding with default config"
 fi
 
 # Running Catalina
