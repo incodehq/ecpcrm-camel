@@ -32,23 +32,60 @@
     <groupId>org.incode.eurocommercial</groupId>
     <artifactId>ecpcrm-camel</artifactId>
     <version>${revision}</version>
+
+    <name>ECPCRM Camel Webapp</name>
+    <description>
+        Camel processors for ECPCRM integration with external systems
+    </description>
+
     <packaging>war</packaging>
 
-    <name>Incode Example Camel Webapp</name>
-    <description>
-        Camel event bus running as a webapp.
-    </description>
+
+    <url>https://www.github.com/incodehq/ecpcrm-camel</url>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:https://github.com/incodehq/ecpcrm-camel.git</connection>
+        <developerConnection>scm:git:https://github.com/incodehq/ecpcrm-camel.git</developerConnection>
+        <url>https://github.com/incodehq/ecpcrm-camel.git</url>
+    </scm>
+    <developers>
+        <developer>
+            <id>rkalis</id>
+            <name>Rosco Kalis</name>
+        </developer>
+    </developers>
 
     <properties>
         <revision>1.16.2-SNAPSHOT</revision>
-        <!--<isis.version>1.16.2</isis.version>-->
 
         <isis.version>1.16.2.20180709-1350-5d9f4f7c</isis.version>
 
-        <!--
-        Also specify the incode-platform.version by changing the parent's version, above.
-         -->
+        <!-- NB: also update the parent of this pom.  -->
         <incode-platform.version>1.16.2.20180710-1343-21c38b2f</incode-platform.version>
+
+
+        <lombok.version>1.18.2</lombok.version>
+        <assertj-core.version>3.6.0</assertj-core.version>
+
+        <ecpcrm-canonical.version>2.0.0-M1.20180808-1244-df59937d</ecpcrm-canonical.version>
+
+
+        <activemq-web.version>5.14.3</activemq-web.version>
+        <spring.version>4.1.9.RELEASE</spring.version>
+        <camel.version>2.16.3</camel.version>
+        <jetty.version>9.4.3.v20170317</jetty.version>
+
+        <maleorang.version>3.0-0.9.6</maleorang.version>
+        <lutung.version>0.0.8</lutung.version>
+
+        <danhaywood-java-assertjext.version>0.1.0</danhaywood-java-assertjext.version>
+
 
         <maven-war-plugin.warName>${project.artifactId}</maven-war-plugin.warName>
 
@@ -59,21 +96,11 @@
 
         <docker-maven-plugin.version>1.0.0</docker-maven-plugin.version>
 
-        <activemq-web.version>5.14.3</activemq-web.version>
-        <spring.version>4.1.9.RELEASE</spring.version>
-        <camel.version>2.16.3</camel.version>
-        <jetty.version>9.4.3.v20170317</jetty.version>
-
-        <lombok.version>1.18.0</lombok.version>
-
-        <danhaywood-java-assertjext.version>0.1.0</danhaywood-java-assertjext.version>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <maleorang.version>3.0-0.9.6</maleorang.version>
-        <lutung.version>0.0.8</lutung.version>
-        <ecpcrm-canonical.version>2.0.0-M1.20180808-1244-df59937d</ecpcrm-canonical.version>
+
     </properties>
 
     <build>
@@ -130,6 +157,20 @@
             </plugin>
 
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>maven-version</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>com.github.odavid.maven.plugins</groupId>
                 <artifactId>mixin-maven-plugin</artifactId>
                 <version>0.1-alpha-39</version>
@@ -160,19 +201,6 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.8</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>maven-version</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
 
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -180,6 +208,10 @@
                 <version>1.0.0</version>
                 <configuration>
                     <updatePomFile>true</updatePomFile>
+                    <pomElements>
+                        <dependencyManagement>resolve</dependencyManagement>
+                        <dependencies>resolve</dependencies>
+                    </pomElements>
                 </configuration>
                 <executions>
                     <execution>
@@ -198,17 +230,22 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
 
     <dependencyManagement>
         <dependencies>
-
             <dependency>
                 <groupId>org.apache.isis.core</groupId>
                 <artifactId>isis</artifactId>
                 <version>${isis.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.isisaddons.module.publishmq</groupId>
+                <artifactId>isis-module-publishmq-dom</artifactId>
+                <version>${incode-platform.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -221,17 +258,19 @@
                 <type>pom</type>
                 <scope>test</scope>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 
+    <!-- XX DEPENDENCIES XX -->
     <dependencies>
 
-        <!--<dependency>-->
-            <!--<groupId>org.apache.cxf</groupId>-->
-            <!--<artifactId>cxf-common-utilities</artifactId>-->
-            <!--<version>2.0.6</version>-->
-        <!--</dependency>-->
+        <!--
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-common-utilities</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+        -->
 
         <dependency>
             <groupId>org.apache.isis.core</groupId>
@@ -249,37 +288,20 @@
         </dependency>
 
         <dependency>
-            <groupId>org.apache.isis.mavendeps</groupId>
-            <artifactId>isis-mavendeps-intellij</artifactId>
-            <type>pom</type>
-        </dependency>
-
-        <dependency>
             <groupId>org.isisaddons.module.publishmq</groupId>
             <artifactId>isis-module-publishmq-dom-statusclient</artifactId>
-            <version>${incode-platform.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.isisaddons.module.publishmq</groupId>
             <artifactId>isis-module-publishmq-dom-camel</artifactId>
-            <version>${incode-platform.version}</version>
         </dependency>
 
-        <!-- test -->
         <dependency>
             <groupId>org.isisaddons.module.publishmq</groupId>
             <artifactId>isis-module-publishmq-dom-servicespi</artifactId>
-            <version>${incode-platform.version}</version>
-            <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.incode.eurocommercial</groupId>
@@ -297,6 +319,13 @@
             <groupId>com.mandrillapp.wrapper.lutung</groupId>
             <artifactId>lutung</artifactId>
             <version>${lutung.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
