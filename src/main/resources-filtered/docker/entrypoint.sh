@@ -7,10 +7,6 @@ mkdir -p /run/conf
 if [ -s /run/secrets/*.context.xml ];
   then
     # Symlink context.xml.
-    ls $CATALINA_HOME/
-    ls $CATALINA_HOME/conf
-    ls $CATALINA_HOME/conf/Catalina
-    ls $CATALINA_HOME/conf/Catalina/localhost
     ln -sf /run/secrets/*.context.xml $CATALINA_HOME/conf/Catalina/localhost/ROOT.xml
     echo "FOUND context.xml."
   else
