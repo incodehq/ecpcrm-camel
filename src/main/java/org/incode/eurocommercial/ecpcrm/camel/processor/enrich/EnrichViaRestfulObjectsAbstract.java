@@ -9,8 +9,6 @@ import org.apache.camel.Message;
 
 import org.apache.isis.schema.common.v1.OidDto;
 
-import org.isisaddons.module.publishmq.dom.statusclient.StatusMessage;
-
 import org.incode.eurocommercial.ecpcrm.camel.processor.ProcessorAbstract;
 
 import lombok.Setter;
@@ -80,13 +78,16 @@ public abstract class EnrichViaRestfulObjectsAbstract extends ProcessorAbstract 
         if(status != 200) {
             final String responseEntity = jaxRsResponse.readEntity(String.class);
 
-            statusMessageClient.log(
-                    StatusMessage.builder(transactionId, "Failed to retrieve " + dtoClass.getName())
-                            .withUri(uri)
-                            .withOid(objectType, objectIdentifier)
-                            .withStatus(-1) // TODO: perhaps something a bit more nuanced here?
-                            .withDetail(responseEntity)
-            );
+//            statusMessageClient.log(
+//                    StatusMessage.builder(transactionId, "Failed to retrieve " + dtoClass.getName())
+//                            .withUri(uri)
+//                            .withOid(objectType, objectIdentifier)
+//                            .withStatus(-1) // TODO: perhaps something a bit more nuanced here?
+//                            .withDetail(responseEntity)
+//            );
+            System.out.println("Failed to retrieve" + dtoClass.getName());
+            System.out.println("URI: " + uri.toString());
+            System.out.println("Response: " + responseEntity);
 
             throw new Exception(responseEntity);
         }
