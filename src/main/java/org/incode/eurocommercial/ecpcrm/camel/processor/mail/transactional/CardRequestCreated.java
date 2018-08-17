@@ -23,8 +23,8 @@ public class CardRequestCreated extends ProcessorAbstract {
         OidDto userOid = ParamUtil.getParamValue(invocation, "User", ValueDto::getReference);
         EnumDto typeEnum = ParamUtil.getParamValue(invocation, "Type", ValueDto::getEnum);
 
-        UserDto userDto = enrichmentService.retrieveDto(exchange.getIn(), userOid, UserDto.class);
-        CenterDto centerDto = enrichmentService.retrieveDto(exchange.getIn(), userDto.getCenter(), CenterDto.class);
+        UserDto userDto = enrichmentService.retrieveDto(userOid, UserDto.class);
+        CenterDto centerDto = enrichmentService.retrieveDto(userDto.getCenter(), CenterDto.class);
 
         if (typeEnum.getEnumName().equals("SEND_TO_HOME")) {
             transactionalMailService.sendTemplateMail("Card Request Received", userDto, centerDto);

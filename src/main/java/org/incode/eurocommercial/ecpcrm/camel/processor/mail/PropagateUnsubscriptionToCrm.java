@@ -33,6 +33,9 @@ public class PropagateUnsubscriptionToCrm extends ProcessorAbstract {
 
         System.out.println("Received mailchimp webhook: " + type + " " + listId + " " + email);
 
+        System.out.println("Message body: " + exchange.getIn().getBody());
+        System.out.println("Message headers: " + exchange.getIn().getHeaders());
+
         if (Strings.isNullOrEmpty(listId) || Strings.isNullOrEmpty(email)) {
             return;
         }

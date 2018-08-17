@@ -200,8 +200,6 @@
                   value="${ecpcrmRo.username}"/>
         <property name="password"
                   value="${ecpcrmRo.password}"/>
-        <property name="statusMessageClient"
-                  ref="statusMessageClient"/>
     </bean>
 
 </beans>

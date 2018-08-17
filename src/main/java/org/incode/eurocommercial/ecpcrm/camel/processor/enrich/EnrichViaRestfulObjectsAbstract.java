@@ -29,7 +29,6 @@ public abstract class EnrichViaRestfulObjectsAbstract extends ProcessorAbstract 
     @Setter
     private String dtoRole;
 
-
     private JaxRsClient jaxRsClient;
 
     /**
@@ -65,7 +64,6 @@ public abstract class EnrichViaRestfulObjectsAbstract extends ProcessorAbstract 
 
         final Class<?> dtoClass = dtoClass(objectType);
 
-        final String transactionId = transactionIdFrom(inMessage);
         final URI uri = uriBuilder.build(objectType, objectIdentifier);
         String username = this.username;
         String password = this.password;
@@ -78,14 +76,7 @@ public abstract class EnrichViaRestfulObjectsAbstract extends ProcessorAbstract 
         if(status != 200) {
             final String responseEntity = jaxRsResponse.readEntity(String.class);
 
-//            statusMessageClient.log(
-//                    StatusMessage.builder(transactionId, "Failed to retrieve " + dtoClass.getName())
-//                            .withUri(uri)
-//                            .withOid(objectType, objectIdentifier)
-//                            .withStatus(-1) // TODO: perhaps something a bit more nuanced here?
-//                            .withDetail(responseEntity)
-//            );
-            System.out.println("Failed to retrieve" + dtoClass.getName());
+            System.out.println("Failed to retrieve " + dtoClass.getName());
             System.out.println("URI: " + uri.toString());
             System.out.println("Response: " + responseEntity);
 

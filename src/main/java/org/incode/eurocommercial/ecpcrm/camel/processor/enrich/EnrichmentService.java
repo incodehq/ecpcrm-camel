@@ -24,18 +24,11 @@ import org.apache.camel.Message;
 
 import org.apache.isis.schema.common.v1.OidDto;
 
-import org.isisaddons.module.publishmq.dom.statusclient.StatusMessage;
-import org.isisaddons.module.publishmq.dom.statusclient.StatusMessageClient;
-
 import org.incode.eurocommercial.ecpcrm.camel.processor.util.MessageUtil;
 
 import lombok.Setter;
 
 public class EnrichmentService {
-
-    @Setter
-    private StatusMessageClient statusMessageClient;
-
     private UriBuilder uriBuilder;
 
     @Setter
@@ -66,19 +59,15 @@ public class EnrichmentService {
         if(status != 200) {
             final String responseEntity = jaxRsResponse.readEntity(String.class);
 
-            statusMessageClient.log(
-                    StatusMessage.builder("", 0,"Failed to invoke " + service + "#" + action + "/?" + queryString)
-                            .withUri(uri)
-                            .withStatus(-1) // TODO: perhaps something a bit more nuanced here?
-                            .withDetail(responseEntity)
-            );
+            System.out.println("Failed to invoke " + service + "#" + action + "/?" + queryString);
+            System.out.println("URI: " + uri.toString());
+            System.out.println("Response: " + responseEntity);
 
             throw new Exception(responseEntity);
         }
     }
 
-    public <T> T retrieveDto(Message message, OidDto oidDto, Class<T> dtoClass) throws Exception {
-        final String transactionId = MessageUtil.transactionIdFrom(message);
+    public <T> T retrieveDto(OidDto oidDto, Class<T> dtoClass) throws Exception {
         final String objectType = oidDto.getType() != null? oidDto.getType() : oidDto.getObjectType();
         final String objectIdentifier = oidDto.getId() != null ? oidDto.getId(): oidDto.getObjectIdentifier();
 
@@ -91,13 +80,10 @@ public class EnrichmentService {
         if(status != 200) {
             final String responseEntity = jaxRsResponse.readEntity(String.class);
 
-            statusMessageClient.log(
-                    StatusMessage.builder(transactionId, 0,"Failed to retrieve " + dtoClass.getName())
-                            .withUri(uri)
-                            .withOid(objectType, objectIdentifier)
-                            .withStatus(-1) // TODO: perhaps something a bit more nuanced here?
-                            .withDetail(responseEntity)
-            );
+
+            System.out.println("Failed to retrieve " + dtoClass.getName());
+            System.out.println("URI: " + uri.toString());
+            System.out.println("Response: " + responseEntity);
 
             throw new Exception(responseEntity);
         }
@@ -110,7 +96,7 @@ public class EnrichmentService {
     }
 
     public <T> void enrichMessageWithDto(Message message, OidDto oidDto, Class<T> dtoClass, String role) throws Exception {
-        T dto = retrieveDto(message, oidDto, dtoClass);
+        T dto = retrieveDto(oidDto, dtoClass);
         MessageUtil.setHeader(message, dto, role);
     }
 
