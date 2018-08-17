@@ -72,6 +72,8 @@ public abstract class EnrichViaRestfulObjectsAbstract extends ProcessorAbstract 
         String username = this.username;
         String password = this.password;
 
+        System.out.println("Sending request to: " + uri.toString() + " " + username + " " + password);
+
         JaxRsResponse jaxRsResponse = jaxRsClient.invoke(uri, dtoClass, username, password);
 
         final int status = jaxRsResponse.getStatus();
