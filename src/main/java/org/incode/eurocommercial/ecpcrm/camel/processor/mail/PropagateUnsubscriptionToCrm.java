@@ -16,10 +16,14 @@
  */
 package org.incode.eurocommercial.ecpcrm.camel.processor.mail;
 
+import java.io.InputStream;
+import java.nio.charset.Charset;
+
 import com.google.common.base.Strings;
 
 import org.apache.camel.BeanInject;
 import org.apache.camel.Exchange;
+import org.apache.commons.io.IOUtils;
 
 import org.incode.eurocommercial.ecpcrm.camel.processor.ProcessorAbstract;
 import org.incode.eurocommercial.ecpcrm.camel.processor.enrich.EnrichmentService;
@@ -33,7 +37,7 @@ public class PropagateUnsubscriptionToCrm extends ProcessorAbstract {
 
         System.out.println("Received mailchimp webhook: " + type + " " + listId + " " + email);
 
-        System.out.println("Message body: " + exchange.getIn().getBody());
+        System.out.println("Message body: " + IOUtils.toString((InputStream) exchange.getIn().getBody(), Charset.defaultCharset()));
         System.out.println("Message headers: " + exchange.getIn().getHeaders());
 
         if (Strings.isNullOrEmpty(listId) || Strings.isNullOrEmpty(email)) {
