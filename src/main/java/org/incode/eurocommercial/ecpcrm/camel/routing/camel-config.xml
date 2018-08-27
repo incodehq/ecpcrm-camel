@@ -41,7 +41,6 @@
                     <camel:process ref="fetchUserFromSubscribeAction"/>
                     <camel:process ref="fetchCenterFromUser"/>
                     <camel:process ref="subscribeToMailChimpMailingList"/>
-                    <camel:process ref="subscribedToPromotionalEmails"/>
                 </camel:when>
 
                 <camel:when>
@@ -169,10 +168,6 @@
 
     <bean id="cardRequestCreated"
           class="org.incode.eurocommercial.ecpcrm.camel.processor.mail.transactional.CardRequestCreated">
-    </bean>
-
-    <bean id="subscribedToPromotionalEmails"
-          class="org.incode.eurocommercial.ecpcrm.camel.processor.mail.transactional.SubscribedToPromotionalEmails">
     </bean>
 
     <!---============== Services ===============-->
