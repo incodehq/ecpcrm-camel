@@ -164,10 +164,6 @@
           class="org.incode.eurocommercial.ecpcrm.camel.processor.mail.PropagateUnsubscriptionToCrm">
     </bean>
 
-    <bean id="updateUserToMailChimpMailingList"
-          class="org.incode.eurocommercial.ecpcrm.camel.processor.mail.UpdateUserToMailChimpMailingList">
-    </bean>
-
     <!---============ Transactional ============-->
 
     <bean id="cardRequestCreated"
