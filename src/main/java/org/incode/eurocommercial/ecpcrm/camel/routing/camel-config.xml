@@ -54,15 +54,6 @@
 
                 <camel:when>
                     <camel:simple>
-                        ${header.ixn[execution$memberIdentifier]} == 'org.incode.eurocommercial.ecpcrm.module.loyaltycards.dom.user.User#isPromotionalEmails()'
-                    </camel:simple>
-                    <camel:process ref="fetchUserFromSubscribeAction"/>
-                    <camel:process ref="fetchCenterFromUser"/>
-                    <camel:process ref="updateUserToMailChimpMailingList"/>
-                </camel:when>
-
-                <camel:when>
-                    <camel:simple>
                         ${header.ixn[execution$memberIdentifier]} == 'org.incode.eurocommercial.ecpcrm.module.loyaltycards.menu.UserMenu#newUser()'
                     </camel:simple>
                     <camel:process ref="fetchUserFromNewUser"/>
