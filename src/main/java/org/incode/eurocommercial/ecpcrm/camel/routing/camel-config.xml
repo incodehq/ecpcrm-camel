@@ -54,6 +54,15 @@
 
                 <camel:when>
                     <camel:simple>
+                        ${header.ixn[execution$memberIdentifier]} == 'org.incode.eurocommercial.ecpcrm.module.loyaltycards.dom.user.User#isPromotionalEmails()'
+                    </camel:simple>
+                    <camel:process ref="fetchUserFromSubscribeAction"/>
+                    <camel:process ref="fetchCenterFromUser"/>
+                    <camel:process ref="updateUserToMailChimpMailingList"/>
+                </camel:when>
+
+                <camel:when>
+                    <camel:simple>
                         ${header.ixn[execution$memberIdentifier]} == 'org.incode.eurocommercial.ecpcrm.module.loyaltycards.menu.UserMenu#newUser()'
                     </camel:simple>
                     <camel:process ref="fetchUserFromNewUser"/>
@@ -162,6 +171,10 @@
 
     <bean id="propagateUnsubscriptionToCrm"
           class="org.incode.eurocommercial.ecpcrm.camel.processor.mail.PropagateUnsubscriptionToCrm">
+    </bean>
+
+    <bean id="updateUserToMailChimpMailingList"
+          class="org.incode.eurocommercial.ecpcrm.camel.processor.mail.UpdateUserToMailChimpMailingList">
     </bean>
 
     <!---============ Transactional ============-->
