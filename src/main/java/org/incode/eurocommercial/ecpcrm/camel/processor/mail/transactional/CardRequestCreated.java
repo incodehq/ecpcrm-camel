@@ -26,11 +26,7 @@ public class CardRequestCreated extends ProcessorAbstract {
         UserDto userDto = enrichmentService.retrieveDto(userOid, UserDto.class);
         CenterDto centerDto = enrichmentService.retrieveDto(userDto.getCenter(), CenterDto.class);
 
-        if (typeEnum.getEnumName().equals("SEND_TO_HOME")) {
-            transactionalMailService.sendTemplateMail("Card Request Received", userDto, centerDto);
-        } else {
-            transactionalMailService.sendTemplateMail("Card Pickup", userDto, centerDto);
-        }
+        transactionalMailService.sendTemplateMail("Card Request Received", userDto, centerDto);
     }
 
     @BeanInject TransactionalMailService transactionalMailService;
