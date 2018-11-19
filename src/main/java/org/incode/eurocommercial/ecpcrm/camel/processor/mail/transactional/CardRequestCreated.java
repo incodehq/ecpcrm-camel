@@ -26,7 +26,7 @@ public class CardRequestCreated extends ProcessorAbstract {
         UserDto userDto = enrichmentService.retrieveDto(userOid, UserDto.class);
         CenterDto centerDto = enrichmentService.retrieveDto(userDto.getCenter(), CenterDto.class);
 
-        transactionalMailService.sendTemplateMail("Card Request Received", userDto, centerDto);
+        transactionalMailService.sendTemplateMail(centerDto.getName(), userDto, centerDto);
     }
 
     @BeanInject TransactionalMailService transactionalMailService;
